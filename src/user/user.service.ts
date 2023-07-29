@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/types/user';
 import { RegisterDTO } from './register.dto';
+import { UserInfoDTO } from './userInfo.dto';
 import { LoginDTO } from 'src/auth/login.dto';
 import * as bcrypt from 'bcrypt';
 import { Payload } from 'src/types/payload';
@@ -42,7 +43,33 @@ export class UserService {
 
   sanitizeUser(user: User) {
     const sanitized = user.toObject();
-    delete sanitized['password'];
+    delete sanitized.password;
     return sanitized;
+  }
+
+  // async createInfo(UserInfoDTO: UserInfoDTO) {
+  //   const { email } = UserInfoDTO;
+  //   const user = await this.userModel.findOne({ email });
+  //   if (user) {
+  //     throw new HttpException('user already exists', HttpStatus.BAD_REQUEST);
+  //   }
+  //   const createdUser = new this.userModel(UserInfoDTO);
+  //   await createdUser.save();
+  //   return this.sanitizeUser(createdUser);
+  // }
+
+  async findUserById(id: string): Promise<User | null> {
+    return this.userModel.findById(id);
+  }
+
+  async updateUser(
+    id: string,
+    updateData: Partial<User>,
+  ): Promise<User | null> {
+    return this.userModel.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
+  async deleteUser(id: string): Promise<User | null> {
+    return this.userModel.findByIdAndDelete(id);
   }
 }
