@@ -37,4 +37,9 @@ export class AuthController {
     const token = await this.authService.signPayload(payload);
     return { user, token };
   }
+
+  @Post('refresh')
+  async refresh(@Body('refresh_token') refreshToken: string) {
+    return this.authService.refresh(refreshToken);
+  }
 }

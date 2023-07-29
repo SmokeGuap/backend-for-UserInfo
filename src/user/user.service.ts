@@ -7,6 +7,7 @@ import { UserInfoDTO } from './userInfo.dto';
 import { LoginDTO } from 'src/auth/login.dto';
 import * as bcrypt from 'bcrypt';
 import { Payload } from 'src/types/payload';
+import { JwtPayload } from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
